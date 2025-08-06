@@ -1,0 +1,15 @@
+node_modules
+.git
+*.log
+*.tar
+*.zip
+payload.json
+coverage
+build
+dist
+.env
+.trivy
+.trivyignore
+.sonar
+.sonarlint
+scannerwork
