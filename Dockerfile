@@ -2,7 +2,7 @@
 FROM node:16-slim
 
 # Install OS packages needed for compiling npm modules (alphabetically sorted)
-RUN apt-get update && apt-get install -y g++ make python3 \
+RUN apt-get update && apt-get install -y --no-install-recommends g++ make python3 \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
