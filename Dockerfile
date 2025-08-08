@@ -13,7 +13,7 @@ COPY package*.json ./
 
 # Set npm cache location and install dependencies in the same layer for efficiency
 RUN npm config set cache /root/.npm-cache --global \
-    && npm ci --only=production
+    && npm ci --only=production  --ignore-scripts
 
 # Copy the rest of the application code
 COPY . .
