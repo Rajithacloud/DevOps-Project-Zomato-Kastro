@@ -1,9 +1,9 @@
 # Use Node.js 16 slim as the base image
 FROM node:16-slim
 
-# Install OS packages needed for compiling npm modules (if any)
-RUN apt-get update && apt-get install -y python3 make g++ \
- && rm -rf /var/lib/apt/lists/*
+# Install OS packages needed for compiling npm modules (alphabetically sorted)
+RUN apt-get update && apt-get install -y g++ make python3 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
 WORKDIR /app
@@ -11,11 +11,9 @@ WORKDIR /app
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
-# Set npm cache location (so it reuses cache in Docker layers)
-RUN npm config set cache /root/.npm-cache --global
-
-# Install dependencies
-RUN npm ci --only=production
+# Set npm cache location and install dependencies in the same layer for efficiency
+RUN npm config set cache /root/.npm-cache --global \
+    && npm ci --only=production
 
 # Copy the rest of the application code
 COPY . .
