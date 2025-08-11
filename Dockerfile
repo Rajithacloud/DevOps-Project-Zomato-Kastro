@@ -5,23 +5,24 @@ FROM node:16-slim
 # RUN apt-get update && apt-get install -y --no-install-recommends g++ make python3 \
 #     && rm -rf /var/lib/apt/lists/*
 
-# Install OS packages needed for compiling npm modules (alphabetically sorted)
-# RUN apt-get update \
-#     && apt-get install -y --no-install-recommends \
-#        g++ \
-#        make \
-#        python3 \
-#     && rm -rf /var/lib/apt/lists/*
+# Install OS packages needed for compiling npm modules
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       g++ \
+       make \
+       python3 \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
 WORKDIR /app
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
+COPY node_modules ./node_modules
 
 # Set npm cache location and install dependencies in the same layer for efficiency
-RUN npm config set cache /root/.npm-cache --global \
-    && npm ci --only=production  --ignore-scripts
+# RUN npm config set cache /root/.npm-cache --global \
+#     && npm ci --only=production  --ignore-scripts
 
 # Copy the rest of the application code
 COPY . .
