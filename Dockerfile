@@ -1,8 +1,18 @@
 # Use Node.js 16 slim as the base image
 FROM node:16-slim
 
-# Install OS packages needed for compiling npm modules (alphabetically sorted)
-RUN apt-get update && apt-get install -y --no-install-recommends g++ make python3 \
+# # Install OS packages needed for compiling npm modules (alphabetically sorted)
+# RUN apt-get update && apt-get install -y --no-install-recommends g++ make python3 \
+#     && rm -rf /var/lib/apt/lists/*
+
+# Enable BuildKit cache mounts for apt
+RUN --mount=type=cache,target=/var/cache/apt \
+    --mount=type=cache,target=/var/lib/apt \
+    apt-get update \
+    && apt-get install -y --no-install-recommends \
+       g++ \
+       make \
+       python3 \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
