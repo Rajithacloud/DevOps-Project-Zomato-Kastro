@@ -5,10 +5,8 @@ FROM node:16-slim
 # RUN apt-get update && apt-get install -y --no-install-recommends g++ make python3 \
 #     && rm -rf /var/lib/apt/lists/*
 
-# Enable BuildKit cache mounts for apt
-RUN --mount=type=cache,target=/var/cache/apt \
-    --mount=type=cache,target=/var/lib/apt \
-    apt-get update \
+# Install OS packages needed for compiling npm modules (alphabetically sorted)
+RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        g++ \
        make \
